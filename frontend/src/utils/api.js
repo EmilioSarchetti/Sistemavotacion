@@ -1,6 +1,6 @@
 // src/utils/api.js
 // Cambia la URL si tu backend corre en otro host/puerto
-const BASE = "http://localhost:4000/api/votes";
+const BASE = "http://172.20.10.13:4000/api/votes";
 
 /* POST /api/votes */
 export const votar = async (datos) => {

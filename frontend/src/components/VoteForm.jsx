@@ -2,7 +2,7 @@
 import { useState } from "react";
 import { votar } from "../utils/api";
 
-// ✏️ Lista de candidatos: agrega o quita nombres aquí
+// Lista de candidatos
 const candidatos = [
   "Candidato Jorge Nadie",
   "Candidato Juan Domingo Perdon",
@@ -12,7 +12,6 @@ const candidatos = [
   "Candidato Franco del Pueblo"
 ];
 
-// Estado inicial del formulario
 const initial = {
   dni: "",
   nombre: "",
@@ -26,18 +25,16 @@ const initial = {
 export default function VoteForm({ onVoto = () => {} }) {
   const [form, setForm] = useState(initial);
 
-  // Maneja cambios de input
   const handle = (e) =>
     setForm({ ...form, [e.target.name]: e.target.value });
 
-  // Envía el voto al backend
   const submit = async (e) => {
     e.preventDefault();
     try {
       await votar({ ...form, edad: +form.edad });
       alert("✅ Voto registrado");
-      setForm(initial);   // Limpia el formulario
-      onVoto();           // Avisa al componente padre para refrescar
+      setForm(initial);
+      onVoto();
     } catch (err) {
       alert("⚠️ " + err.message);
     }
@@ -47,18 +44,60 @@ export default function VoteForm({ onVoto = () => {} }) {
     <form onSubmit={submit}>
       <h2>Emitir voto</h2>
 
-      {["DNI", "Nombre Completo", "Edad", "Lugar de Nacimiento", "Residencia"].map((campo) => (
-        <div key={campo}>
-          <label>{campo.toUpperCase()}:</label>
-          <input
-            name={campo}
-            type={campo === "edad" ? "number" : "text"}
-            value={form[campo]}
-            onChange={handle}
-            required
-          />
-        </div>
-      ))}
+      <div>
+        <label>DNI:</label>
+        <input
+          name="dni"
+          type="text"
+          value={form.dni}
+          onChange={handle}
+          required
+        />
+      </div>
+
+      <div>
+        <label>Nombre Completo:</label>
+        <input
+          name="nombre"
+          type="text"
+          value={form.nombre}
+          onChange={handle}
+          required
+        />
+      </div>
+
+      <div>
+        <label>Edad:</label>
+        <input
+          name="edad"
+          type="number"
+          value={form.edad}
+          onChange={handle}
+          required
+        />
+      </div>
+
+      <div>
+        <label>Lugar de Nacimiento:</label>
+        <input
+          name="nacimiento"
+          type="text"
+          value={form.nacimiento}
+          onChange={handle}
+          required
+        />
+      </div>
+
+      <div>
+        <label>Residencia:</label>
+        <input
+          name="residencia"
+          type="text"
+          value={form.residencia}
+          onChange={handle}
+          required
+        />
+      </div>
 
       <div>
         <label>Sexo:</label>
