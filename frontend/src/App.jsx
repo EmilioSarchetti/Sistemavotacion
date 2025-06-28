@@ -1,17 +1,27 @@
-// src/App.jsx
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { useState } from "react";
 import VoteForm from "./components/VoteForm";
 import Results from "./components/Results";
 import "./index.css";
 
 export default function App() {
-  const [flag, setFlag] = useState(false); // simple toggle para refrescar hijos
+  const [refreshFlag, setRefreshFlag] = useState(false);
 
   return (
-    <div className="container">
-      <h1>Sistema de Votación</h1>
-      <VoteForm onVoto={() => setFlag(!flag)} />
-      <Results refreshFlag={flag} />
-    </div>
+    <BrowserRouter>
+      <Routes>
+        {/* ruta pública */}
+        <Route
+          path="/"
+          element={<VoteForm onVoto={() => setRefreshFlag(!refreshFlag)} />}
+        />
+
+        {/* ruta “oculta” para el admin */}
+        <Route
+          path="/admin"
+          element={<Results refreshFlag={refreshFlag} />}
+        />
+      </Routes>
+    </BrowserRouter>
   );
 }

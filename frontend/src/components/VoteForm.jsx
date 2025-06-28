@@ -2,24 +2,42 @@
 import { useState } from "react";
 import { votar } from "../utils/api";
 
+// ✏️ Lista de candidatos: agrega o quita nombres aquí
+const candidatos = [
+  "Candidato Jorge Nadie",
+  "Candidato Juan Domingo Perdon",
+  "Candidato Voto Blanco",
+  "Candidato Elvira Justa",
+  "Candidato Sofía Tridente",
+  "Candidato Franco del Pueblo"
+];
+
+// Estado inicial del formulario
 const initial = {
-  dni: "", nombre: "", edad: "", sexo: "",
-  nacimiento: "", residencia: "", candidato: ""
+  dni: "",
+  nombre: "",
+  edad: "",
+  sexo: "",
+  nacimiento: "",
+  residencia: "",
+  candidato: ""
 };
 
 export default function VoteForm({ onVoto = () => {} }) {
   const [form, setForm] = useState(initial);
 
+  // Maneja cambios de input
   const handle = (e) =>
     setForm({ ...form, [e.target.name]: e.target.value });
 
+  // Envía el voto al backend
   const submit = async (e) => {
     e.preventDefault();
     try {
       await votar({ ...form, edad: +form.edad });
       alert("✅ Voto registrado");
-      setForm(initial);
-      onVoto();               // avisa al padre para refrescar
+      setForm(initial);   // Limpia el formulario
+      onVoto();           // Avisa al componente padre para refrescar
     } catch (err) {
       alert("⚠️ " + err.message);
     }
@@ -29,13 +47,13 @@ export default function VoteForm({ onVoto = () => {} }) {
     <form onSubmit={submit}>
       <h2>Emitir voto</h2>
 
-      {["dni","nombre","edad","nacimiento","residencia"].map(c => (
-        <div key={c}>
-          <label>{c.toUpperCase()}:</label>
+      {["DNI", "Nombre Completo", "Edad", "Lugar de Nacimiento", "Residencia"].map((campo) => (
+        <div key={campo}>
+          <label>{campo.toUpperCase()}:</label>
           <input
-            name={c}
-            type={c==="edad" ? "number" : "text"}
-            value={form[c]}
+            name={campo}
+            type={campo === "edad" ? "number" : "text"}
+            value={form[campo]}
             onChange={handle}
             required
           />
@@ -44,19 +62,31 @@ export default function VoteForm({ onVoto = () => {} }) {
 
       <div>
         <label>Sexo:</label>
-        <select name="sexo" value={form.sexo} onChange={handle} required>
+        <select
+          name="sexo"
+          value={form.sexo}
+          onChange={handle}
+          required
+        >
           <option value="">Seleccionar…</option>
-          <option>F</option><option>M</option><option>X</option>
+          <option value="F">F</option>
+          <option value="M">M</option>
+          <option value="X">X</option>
         </select>
       </div>
 
       <div>
         <label>Candidato:</label>
-        <select name="candidato" value={form.candidato} onChange={handle} required>
+        <select
+          name="candidato"
+          value={form.candidato}
+          onChange={handle}
+          required
+        >
           <option value="">Seleccionar…</option>
-          <option>Candidato Jorge Nadie</option>
-          <option>Candidato Juan Domingo Perdon</option>
-          <option>Candidato Voto Blanco</option>
+          {candidatos.map((c) => (
+            <option key={c}>{c}</option>
+          ))}
         </select>
       </div>
 
