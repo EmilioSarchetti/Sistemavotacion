@@ -1,0 +1,11 @@
+[{
+  "_id": {
+    "$oid": "685eeca351a118daf650eb67"
+  },
+  "DNI": "",
+  "Nombre_y_Apellido": "",
+  "Edad": null,
+  "Sexo": "",
+  "Lugar_de_nacimiento": "",
+  "Lugar_de_residencia": ""
+}]
