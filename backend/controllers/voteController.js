@@ -26,14 +26,19 @@ const getResults = async (_req, res) => {
 /* GET /api/votes/voters */
 const getVoters = async (_req, res) => {
   const list = await Voter.find(
-      {},
-      "-_id dni nombre edad sexo nacimiento residencia candidato"
-    ).lean();
+    {},
+    "-_id dni nombre edad sexo nacimiento residencia candidato"
+  ).lean();
 
-  // anonimizar último 4 dígitos
-  list.forEach(v => (v.dni = "••••" + v.dni.slice(-4)));
+  // Mostrar primeros 4 dígitos y ocultar el resto
+  list.forEach(v => {
+    const visible = v.dni.slice(0, 4);                 // primeros 4
+    const hidden  = "•".repeat(Math.max(v.dni.length - 4, 0)); // resto
+    v.dni = visible + hidden;
+  });
 
   res.json(list);
 };
+
 
 module.exports = { emitVote, getResults, getVoters };

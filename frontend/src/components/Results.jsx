@@ -38,12 +38,9 @@ export default function Results({ refreshFlag }) {
         <thead>
           <tr>
             <th>DNI</th>
-            <th>Nombre</th>
             <th>Edad</th>
             <th>Sexo</th>
             <th>Nacimiento</th>
-            <th>Residencia</th>
-            <th>Candidato</th>
           </tr>
         </thead>
         <tbody>
@@ -51,12 +48,9 @@ export default function Results({ refreshFlag }) {
             lista.map((v, i) => (
               <tr key={i}>
                 <td>{v.dni}</td>
-                <td>{v.nombre}</td>
                 <td>{v.edad}</td>
                 <td>{v.sexo}</td>
                 <td>{v.nacimiento}</td>
-                <td>{v.residencia}</td>
-                <td>{v.candidato}</td>
               </tr>
             ))
           ) : (
